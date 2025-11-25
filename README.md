@@ -28,9 +28,9 @@
 > *Tampilan antarmuka yang modern, bersih, dan interaktif.*
 
 <div align="center">
-  <img src="https://via.placeholder.com/300x600?text=Screenshot+Home" width="250" />
+  <img src="assets/images/Home.png" width="250" />
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="https://via.placeholder.com/300x600?text=Screenshot+History" width="250" />
+  <img src="assets/images/History.png" width="250" />
 </div>
 
 ---
