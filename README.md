@@ -4,7 +4,7 @@
 
   # ✨ Daily Focus Task Manager
   
-  **Aplikasi To-Do List Premium dengan Animasi Halus & Fitur History**
+  **Aplikasi To-Do List**
   
   [![Flutter](https://img.shields.io/badge/Flutter-3.0%2B-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
   [![Dart](https://img.shields.io/badge/Dart-3.0%2B-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
