@@ -1,16 +1,72 @@
-# uas_todo_list
+<div align="center">
 
-A new Flutter project.
+  <img src="https://storage.googleapis.com/cms-storage-bucket/0dbfcc7a59cd1cf16282.png" width="150" alt="flutter logo">
 
-## Getting Started
+  # ✨ Daily Focus Task Manager
+  
+  **Aplikasi To-Do List Premium dengan Animasi Halus & Fitur History**
+  
+  [![Flutter](https://img.shields.io/badge/Flutter-3.0%2B-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
+  [![Dart](https://img.shields.io/badge/Dart-3.0%2B-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
+  [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://opensource.org/licenses/MIT)
+  [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey?style=for-the-badge)](#)
 
-This project is a starting point for a Flutter application.
+</div>
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 👨‍💻 Identitas Mahasiswa (UAS)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Nama | NRP | Kelas |
+| :--- | :--- | :--- |
+| **Iftinan Rizaldy** | **3224600056** | **2 D4 Teknik Komputer B** |
+
+---
+
+## 📱 Preview Aplikasi
+
+> *Tampilan antarmuka yang modern, bersih, dan interaktif.*
+
+<div align="center">
+  <img src="https://via.placeholder.com/300x600?text=Screenshot+Home" width="250" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://via.placeholder.com/300x600?text=Screenshot+History" width="250" />
+</div>
+
+---
+
+## 🔥 Fitur Unggulan (Premium Features)
+
+Aplikasi ini tidak sekadar mencatat tugas, tapi memberikan pengalaman pengguna (UX) yang menyenangkan:
+
+### 1. ✨ Gestur Interaktif (Swipe Actions)
+- **Geser Kanan (Hijau):** Tandai tugas selesai. Tugas otomatis pindah ke History.
+- **Geser Kiri (Merah):** Hapus tugas jika salah ketik (disertai tombol Undo).
+
+### 2. 📝 Detail Tugas (Rich Data)
+- Menyimpan **Judul** dan **Deskripsi** dalam satu struktur data (`List<String>`).
+- Klik kartu tugas untuk melihat detail lengkapnya dalam tampilan Modal yang elegan.
+
+### 3. 🏆 Hall of Fame (History)
+- Halaman khusus untuk melihat pencapaian tugas yang sudah selesai.
+- Fitur **Hapus Permanen** untuk membersihkan riwayat.
+
+### 4. 🎨 UI/UX Modern
+- **Glassy Look:** Desain kartu putih bersih dengan bayangan halus.
+- **Animations:** Animasi *Slide* dan *Fade* saat menambah atau menghapus tugas.
+- **Greeting Header:** Sapaan personal di halaman utama.
+
+---
+
+## 🛠️ Struktur Project (Clean Code)
+
+Project ini menggunakan arsitektur modular agar mudah dikembangkan dan dinilai:
+
+```text
+lib/
+├── screens/
+│   ├── home_screen.dart     # Logika Utama & Tampilan Home
+│   └── history_screen.dart  # Halaman Riwayat Selesai
+├── widgets/
+│   └── todo_item.dart       # Komponen Kartu Tugas (Swipeable)
+└── main.dart                # Entry Point & Tema Aplikasi
