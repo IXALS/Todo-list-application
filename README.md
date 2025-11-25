@@ -17,7 +17,7 @@
 
 ## 👨‍💻 Creator
 
- **Iftinan Rizaldy** 
+ **IXALS** 
 
 ## 🔥 Fitur Unggulan 
 
