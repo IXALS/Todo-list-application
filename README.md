@@ -15,11 +15,11 @@
 
 ---
 
-## 👨‍💻 Identitas Mahasiswa (UAS)
+## 👨‍💻 Creator
 
-| Nama | NRP | Kelas |
-| :--- | :--- | :--- |
-| **Iftinan Rizaldy** | **3224600056** | **2 D4 Teknik Komputer B** |
+| Nama |
+| :--- |
+| **Iftinan Rizaldy** |
 
 ## 🔥 Fitur Unggulan 
 
