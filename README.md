@@ -17,9 +17,7 @@
 
 ## 👨‍💻 Creator
 
-| Nama |
-| :--- |
-| **Iftinan Rizaldy** |
+ **Iftinan Rizaldy** 
 
 ## 🔥 Fitur Unggulan 
 
