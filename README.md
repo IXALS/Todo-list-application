@@ -21,20 +21,6 @@
 | :--- | :--- | :--- |
 | **Iftinan Rizaldy** | **3224600056** | **2 D4 Teknik Komputer B** |
 
----
-
-## 📱 Preview Aplikasi
-
-> *Tampilan antarmuka yang modern, bersih, dan interaktif.*
-
-<div align="center">
-  <img src="assets/images/Home.png" width="250" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="assets/images/History.png" width="250" />
-</div>
-
----
-
 ## 🔥 Fitur Unggulan (Premium Features)
 
 Aplikasi ini tidak sekadar mencatat tugas, tapi memberikan pengalaman pengguna (UX) yang menyenangkan:
