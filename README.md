@@ -37,14 +37,14 @@ Aplikasi ini tidak sekadar mencatat tugas, tapi memberikan pengalaman pengguna (
 - Halaman khusus untuk melihat pencapaian tugas yang sudah selesai.
 - Fitur **Hapus Permanen** untuk membersihkan riwayat.
 
-### 4. 🎨 UI/UX Modern
+### 4. 🎨 UI/UX 
 - **Glassy Look:** Desain kartu putih bersih dengan bayangan halus.
 - **Animations:** Animasi *Slide* dan *Fade* saat menambah atau menghapus tugas.
 - **Greeting Header:** Sapaan personal di halaman utama.
 
 ---
 
-## 🛠️ Struktur Project (Clean Code)
+## 🛠️ Struktur Project 
 
 Project ini menggunakan arsitektur modular agar mudah dikembangkan dan dinilai:
 
