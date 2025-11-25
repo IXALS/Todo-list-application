@@ -16,9 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.indigo, 
+          seedColor: const Color(0xFF2575FC),
           brightness: Brightness.light,
         ),
+        fontFamily: 'Roboto',
       ),
       home: const TodoListScreen(),
     );

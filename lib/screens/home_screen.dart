@@ -10,59 +10,101 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-
+  // DATA DISIMPAN SEBAGAI: "Judul|||Deskripsi"
   final List<String> _tugasRizzaldy = [
-    'Menyelesaikan Modul Flutter',
-    'Mengerjakan Laporan KP',
-    'Beli Kopi buat Begadang',
+    'Menyelesaikan Modul Flutter|||Bab 1 sampai Bab 5 harus kelar hari ini',
+    'Mengerjakan Laporan KP|||Revisi Bab 4 bagian kesimpulan',
+    'Beli Kopi|||Kopi susu gula aren less ice',
   ];
 
   final List<String> _riwayatRizzaldy = [];
-  final TextEditingController _inputController = TextEditingController();
+  final TextEditingController _judulController = TextEditingController();
+  final TextEditingController _deskripsiController = TextEditingController();
+
+  // --- LOGIKA ---
 
   void _tambahTugas() {
-    if (_inputController.text.isNotEmpty) {
-      _tugasRizzaldy.insert(0, _inputController.text);
-      _listKey.currentState?.insertItem(0, duration: const Duration(milliseconds: 600));
-      _inputController.clear();
+    if (_judulController.text.isNotEmpty) {
+      // GABUNGKAN JUDUL DAN DESKRIPSI DENGAN '|||'
+      String fullData = "${_judulController.text}|||${_deskripsiController.text}";
+      
+      setState(() {
+        _tugasRizzaldy.insert(0, fullData);
+      });
+      _judulController.clear();
+      _deskripsiController.clear();
       Navigator.of(context).pop();
     }
   }
 
-  void _selesaikanTugas(int index) {
-    String tugasSelesai = _tugasRizzaldy[index];
-
-    _listKey.currentState?.removeItem(
-      index,
-      (context, animation) => TodoItem(
-        task: tugasSelesai, 
-        animation: animation, 
-        index: index, 
-        onCompleted: () {}, 
-        isRemoving: true
-      ),
-      duration: const Duration(milliseconds: 500),
-    );
-
-    _tugasRizzaldy.removeAt(index);
-    
+  void _geserSelesai(int index) {
+    String data = _tugasRizzaldy[index];
     setState(() {
-      _riwayatRizzaldy.insert(0, tugasSelesai);
+      _tugasRizzaldy.removeAt(index);
+      _riwayatRizzaldy.insert(0, data);
     });
+    // Feedback
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Mantap! Tugas Selesai ✅"), backgroundColor: Colors.green));
+  }
 
+  void _geserHapus(int index) {
+    String data = _tugasRizzaldy[index];
+    setState(() {
+      _tugasRizzaldy.removeAt(index);
+    });
+    // Feedback Undo
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.indigo,
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle, color: Colors.white),
-            const SizedBox(width: 10),
-            Expanded(child: Text('Selesai: "$tugasSelesai"')),
-          ],
+        content: const Text("Tugas dihapus 🗑️"),
+        backgroundColor: Colors.redAccent,
+        action: SnackBarAction(
+          label: 'UNDO',
+          textColor: Colors.white,
+          onPressed: () => setState(() => _tugasRizzaldy.insert(index, data)),
         ),
       ),
+    );
+  }
+
+  // --- UI DIALOGS ---
+
+  void _lihatDetail(String taskString) {
+    List<String> parts = taskString.split('|||');
+    String title = parts[0];
+    String desc = parts.length > 1 && parts[1].isNotEmpty ? parts[1] : "Tidak ada deskripsi tambahan.";
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Detail Tugas", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+                  IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87)),
+              const SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(color: Colors.blue[50], borderRadius: BorderRadius.circular(15)),
+                child: Text(desc, style: const TextStyle(fontSize: 16, color: Colors.black87, height: 1.5)),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -70,41 +112,53 @@ class _TodoListScreenState extends State<TodoListScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
-          title: const Text('✨ Target Baru', style: TextStyle(fontWeight: FontWeight.bold)),
-          content: TextField(
-            controller: _inputController,
-            autofocus: true,
-            style: const TextStyle(fontSize: 18),
-            decoration: InputDecoration(
-              hintText: "Apa rencanamu?",
-              filled: true,
-              fillColor: Colors.grey[100],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide.none,
-              ),
-              prefixIcon: const Icon(Icons.edit_note, color: Colors.indigo),
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("✨ Target Baru", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 15),
+                // INPUT JUDUL
+                TextField(
+                  controller: _judulController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: "Judul Tugas (Wajib)",
+                    filled: true, fillColor: Colors.grey[100],
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                // INPUT DESKRIPSI
+                TextField(
+                  controller: _deskripsiController,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    hintText: "Catatan tambahan (Opsional)...",
+                    filled: true, fillColor: Colors.grey[100],
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(onPressed: () => Navigator.pop(context), child: const Text("Batal", style: TextStyle(color: Colors.grey))),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: _tambahTugas,
+                      style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF2575FC), foregroundColor: Colors.white),
+                      child: const Text("Simpan"),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Batal', style: TextStyle(color: Colors.grey)),
-            ),
-            ElevatedButton.icon(
-              onPressed: _tambahTugas,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.indigo,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              icon: const Icon(Icons.rocket_launch, size: 18),
-              label: const Text('GASKAN'),
-            ),
-          ],
         );
       },
     );
@@ -113,118 +167,60 @@ class _TodoListScreenState extends State<TodoListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F4F8),
-      appBar: AppBar(
-        toolbarHeight: 80,
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Daily Focus 🎯', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white)),
-            Text('Rizz-aldy Workspace', style: TextStyle(fontSize: 14, color: Colors.white70)),
-          ],
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF3F51B5), Color(0xFF5C6BC0)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: FloatingActionButton.small(
-              heroTag: 'history_btn',
-              onPressed: () {
-                Navigator.of(context).push(PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => HistoryScreen(historyList: _riwayatRizzaldy),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                    return SlideTransition(
-                      position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).animate(animation),
-                      child: child,
-                    );
-                  },
-                ));
-              },
-              backgroundColor: Colors.white.withOpacity(0.2),
-              elevation: 0,
-              child: const Icon(Icons.history, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-      
+      backgroundColor: const Color(0xFFF8F9FD),
       body: Column(
         children: [
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+          // HEADER (Sama seperti sebelumnya)
+          Container(
+            padding: const EdgeInsets.only(top: 60, left: 24, right: 24, bottom: 24),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 20, offset: Offset(0, 5))],
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Tugas Tersedia (${_tugasRizzaldy.length})", 
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[800])
-                ),
+                const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text("Hello, Rizz-aldy!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+                  Text("Let's be productive.", style: TextStyle(fontSize: 14, color: Colors.grey)),
+                ]),
+                InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryScreen(historyList: _riwayatRizzaldy))),
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(15)),
+                    child: const Icon(Icons.history, color: Colors.black87),
+                  ),
+                )
               ],
             ),
           ),
-          const SizedBox(height: 10),
-
+          // LIST
           Expanded(
             child: _tugasRizzaldy.isEmpty
-                ? Center(
-                    child: TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0.0, end: 1.0),
-                      duration: const Duration(seconds: 1),
-                      builder: (context, value, child) {
-                        return Opacity(
-                          opacity: value,
-                          child: Transform.scale(
-                            scale: value,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.task_alt, size: 100, color: Colors.indigo.withOpacity(0.5)),
-                                const SizedBox(height: 20),
-                                const Text("Relax! Semua beres 😎", style: TextStyle(fontSize: 16, color: Colors.grey)),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                : AnimatedList(
-                    key: _listKey,
-                    initialItemCount: _tugasRizzaldy.length,
-                    itemBuilder: (context, index, animation) {
+                ? const Center(child: Text("Semua beres! Santai dulu. 😎", style: TextStyle(color: Colors.grey)))
+                : ListView.builder(
+                    padding: const EdgeInsets.only(top: 20),
+                    itemCount: _tugasRizzaldy.length,
+                    itemBuilder: (context, index) {
                       return TodoItem(
-                        task: _tugasRizzaldy[index], 
-                        animation: animation, 
+                        taskString: _tugasRizzaldy[index], // Kirim string mentah
                         index: index,
-                        onCompleted: () => _selesaikanTugas(index),
+                        onSwipeSelesai: _geserSelesai, // Kanan
+                        onSwipeHapus: _geserHapus,     // Kiri
+                        onTapDetail: () => _lihatDetail(_tugasRizzaldy[index]), // Klik
                       );
                     },
                   ),
           ),
         ],
       ),
-      
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: _tampilkanDialogInput,
-        backgroundColor: Colors.indigo,
-        elevation: 4,
-        icon: const Icon(Icons.add_task, color: Colors.white),
-        label: const Text('Tambah', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF2575FC),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
