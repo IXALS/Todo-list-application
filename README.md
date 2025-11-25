@@ -21,7 +21,7 @@
 | :--- | :--- | :--- |
 | **Iftinan Rizaldy** | **3224600056** | **2 D4 Teknik Komputer B** |
 
-## 🔥 Fitur Unggulan (Premium Features)
+## 🔥 Fitur Unggulan 
 
 Aplikasi ini tidak sekadar mencatat tugas, tapi memberikan pengalaman pengguna (UX) yang menyenangkan:
 
